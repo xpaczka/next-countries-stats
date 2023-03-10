@@ -1,4 +1,3 @@
-import Image from 'next/image';
 import { FC } from 'react';
 import { CountryProps } from '@/types';
 
@@ -9,7 +8,7 @@ const ListElement: FC<CountryProps> = ({ name, capital, flags, population, area 
   return (
     <li className='flex items-center justify-between px-5 py-4 rounded-md mb-4 bg-white/50 h-16'>
       <div className='flex items-center flex-1'>
-        <Image src={flags.svg} alt={flags.alt || name.common} width={48} height={32} className='rounded-sm' />
+        <img src={flags.svg} alt={flags.alt || name.common} className='rounded-sm w-12' />
         <p className='pl-5'>{name.common}</p>
       </div>
       <div className='flex items-center text-center'>

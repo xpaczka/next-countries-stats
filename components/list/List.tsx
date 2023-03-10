@@ -1,10 +1,8 @@
-import { FC, useContext } from 'react';
+import { FC } from 'react';
 import ListElement from './ListElement';
-import { CountriesContext } from '@/context';
+import { CountryProps } from '@/types';
 
-const List = () => {
-  const { countries } = useContext(CountriesContext);
-
+const List: FC<{ countries: CountryProps[] }> = ({ countries }) => {
   return (
     <ul>
       {countries.map(country => (

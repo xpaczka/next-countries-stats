@@ -1,48 +1,46 @@
 import { createContext, FC, ReactNode, useEffect, useState } from 'react';
 import { CountryProps } from '@/types';
+import { getAllCountriesListData } from '@/libs/countries-utils';
 
-/* TODO:
--> fix searchbar issue
--> add countries sorting by property
-*/
-
-interface ContextProps {
+interface Context {
   countries: CountryProps[];
-  filterCountries: (input: string) => void;
+  filteredCountries: CountryProps[];
+  filterCountries: (value: string) => void;
 }
 
-export const CountriesContext = createContext<ContextProps>({
+export const CountriesContext = createContext<Context>({
   countries: [],
-  filterCountries: (input: string) => {},
+  filteredCountries: [],
+  filterCountries: (value: string) => {},
 });
 
 const CountriesProvider: FC<{ children: ReactNode }> = ({ children }) => {
-  const [countries, setCountries] = useState([]);
-  const [filteredCountries, setFilteredCountries] = useState([]);
+  const [countries, setCountries] = useState<CountryProps[]>([]);
+  const [filteredCountries, setFilteredCountries] = useState<CountryProps[]>([]);
 
   useEffect(() => {
-    const fetchCountries = async () => {
-      const response = await fetch('https://restcountries.com/v3.1/all');
-      const data = await response.json();
-      const sortedCountries = data.sort((a: any, b: any) => a.name.common.localeCompare(b.name.common));
-      setCountries(sortedCountries);
+    const abortController = new AbortController();
+
+    const getData = async () => {
+      const data = await getAllCountriesListData();
+      if (!data) return;
+
+      setCountries(data);
     };
 
-    fetchCountries();
-  });
+    getData();
+    return () => abortController.abort();
+  }, []);
 
-  const filterCountries = (input: string) => {
-    if (input === '') setFilteredCountries(countries);
-
-    const filtered = countries.filter((el: CountryProps) =>
-      el.name.common.toLowerCase().includes(input.toLowerCase().trim())
-    );
-    setFilteredCountries(filtered);
+  const filterCountries = (value: string) => {
+    const filter = countries.filter(country => country.name.common.toLowerCase().includes(value.toLowerCase()));
+    setFilteredCountries(filter);
   };
 
   const context = {
-    countries: filteredCountries.length ? filteredCountries : countries,
-    filterCountries: filterCountries,
+    countries,
+    filteredCountries,
+    filterCountries,
   };
 
   return <CountriesContext.Provider value={context}>{children}</CountriesContext.Provider>;

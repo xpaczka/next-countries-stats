@@ -1,28 +1,18 @@
 import Search from '../Search';
 import ListCategory from '../list/ListCategory';
 import { getNumberOfCountries } from '@/libs/countries-utils';
-import { useEffect, useState } from 'react';
+import useFetch from '@/hooks/useFetch';
 
 const Header = () => {
-  const [countriesNumber, setCountriesNumber] = useState<number>(0);
-
-  useEffect(() => {
-    const abortController = new AbortController();
-    const getCountriesNumber = async (): Promise<void> => {
-      const numberOfCountries = await getNumberOfCountries();
-      setCountriesNumber(numberOfCountries);
-    };
-
-    getCountriesNumber();
-    return () => abortController.abort();
-  }, []);
+  const { data } = useFetch(getNumberOfCountries);
 
   return (
     <div className='container fixed left-1/2 transform -translate-x-1/2 pb-5 py-10 bg-green-400'>
       <div className='pl-5 mb-10 flex justify-between'>
         <div>
           <div className='text-2xl font-bold uppercase'>Countries Stats</div>
-          {countriesNumber && <p>{countriesNumber} countries found</p>}
+          {/* {countriesNumber && <p>{countriesNumber} countries found</p>} */}
+          {data && <p>{data} countries found</p>}
         </div>
         <Search />
       </div>

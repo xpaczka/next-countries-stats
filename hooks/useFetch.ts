@@ -1,6 +1,12 @@
 import { useState, useEffect } from 'react';
 
-const useFetch = (fetchingFunction: Function) => {
+interface FetchHookReturn {
+  data: any;
+  isLoading: boolean;
+  error: string | undefined;
+}
+
+const useFetch = (fetchingFunction: Function): FetchHookReturn => {
   const [data, setData] = useState();
   const [isLoading, setIsLoading] = useState<boolean>(false);
   const [error, setError] = useState<string | undefined>();
@@ -22,7 +28,7 @@ const useFetch = (fetchingFunction: Function) => {
 
     getData();
     return () => controller.abort();
-  }, [isLoading, error]);
+  }, []);
 
   return { data, isLoading, error };
 };

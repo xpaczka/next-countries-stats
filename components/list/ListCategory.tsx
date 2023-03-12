@@ -1,6 +1,5 @@
-import { FC, useState } from 'react';
-
-type SortingType = boolean | null;
+import { CountriesContext } from '@/context';
+import { FC, useContext, useState } from 'react';
 
 interface ListCategoryProps {
   name: string;
@@ -8,11 +7,27 @@ interface ListCategoryProps {
 }
 
 const ListCategory: FC<ListCategoryProps> = ({ name, className }) => {
-  const [sortingDirection, setSortingDirection] = useState<SortingType>(null);
+  const { sortCountriesByCategory } = useContext(CountriesContext);
+  const [sortingDirection, setSortingDirection] = useState<boolean | null>(null);
+
+  const sortingHandler = () => {
+    setSortingDirection(prevDirection => {
+      switch (prevDirection) {
+        case true:
+          return false;
+        case false:
+          return null;
+        case null:
+          return true;
+      }
+    });
+
+    sortCountriesByCategory(name.toLowerCase(), sortingDirection);
+  };
 
   return (
     <div className={`text-center cursor-pointer ${className}`}>
-      <p>{name}</p>
+      <p onClick={sortingHandler}>{name}</p>
     </div>
   );
 };

@@ -5,4 +5,12 @@ export interface CountryProps {
   population: number;
   area: number;
   capital?: string[];
+  [key: string]:
+    | string
+    | number
+    | undefined
+    | { common: string }
+    | { svg: string; alt: string }
+    | string[]
+    | Record<string, unknown>;
 }

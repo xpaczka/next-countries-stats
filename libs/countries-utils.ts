@@ -1,5 +1,9 @@
 import { CountryProps } from '@/types';
 
+export const sortCountres = (countries: CountryProps[]): CountryProps[] => {
+  return countries.sort((a: any, b: any) => a.name.common.localeCompare(b.name.common));
+};
+
 export const getAllCountries = async () => {
   try {
     const response = await fetch('https://restcountries.com/v3.1/all');
@@ -10,7 +14,7 @@ export const getAllCountries = async () => {
 
     const data = await response.json();
     const filteredCountries = data.filter((country: { independent: boolean }) => country.independent === true);
-    const sortedCountries = filteredCountries.sort((a: any, b: any) => a.name.common.localeCompare(b.name.common));
+    const sortedCountries = sortCountres(filteredCountries);
 
     return sortedCountries;
   } catch (err) {
@@ -29,7 +33,7 @@ export const getAllCountriesListData = async (): Promise<CountryProps[] | void> 
       flags: data.flags,
       population: data.population,
       area: data.area,
-      capital: data.capital ?? null,
+      capital: data.capital,
     };
   });
 

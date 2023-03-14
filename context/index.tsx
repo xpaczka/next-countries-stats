@@ -1,8 +1,9 @@
 // TODO -> switch to redux
+// TODO -> also filter for capital, region, etc...
 
 import { createContext, FC, ReactNode, useState } from 'react';
-import { CountryProps, CountriesContextType } from '@/types';
-import { getAllCountriesListData, sortCountres } from '@/libs/countries-utils';
+import { CountryType, CountriesContextType } from '@/types';
+import { getAllCountriesListData } from '@/libs/countries-utils';
 import useFetch from '@/hooks/useFetch';
 
 export const CountriesContext = createContext<CountriesContextType>({
@@ -16,9 +17,9 @@ export const CountriesContext = createContext<CountriesContextType>({
 });
 
 const CountriesProvider: FC<{ children: ReactNode }> = ({ children }) => {
-  const { data: countries } = useFetch<CountryProps[]>(getAllCountriesListData);
-  const [filteredCountries, setFilteredCountries] = useState<CountryProps[] | undefined>([]);
-  const [sortedCountries, setSortedCountries] = useState<CountryProps[] | undefined>([]);
+  const { data: countries } = useFetch<CountryType[]>(getAllCountriesListData);
+  const [filteredCountries, setFilteredCountries] = useState<CountryType[] | undefined>([]);
+  const [sortedCountries, setSortedCountries] = useState<CountryType[] | undefined>([]);
   const [isSorted, setIsSorted] = useState<boolean>(false);
   const [isFiltered, setIsFiltered] = useState<boolean>(false);
 
@@ -26,7 +27,7 @@ const CountriesProvider: FC<{ children: ReactNode }> = ({ children }) => {
     if (value === '') {
       setIsFiltered(false);
     } else {
-      const filter = countries?.filter((country: CountryProps) =>
+      const filter = countries?.filter((country: CountryType) =>
         country.name.common.toLowerCase().includes(value.toLowerCase())
       );
       setIsFiltered(true);
@@ -34,14 +35,14 @@ const CountriesProvider: FC<{ children: ReactNode }> = ({ children }) => {
     }
   };
 
-  const sortCountriesByCategory = (category: keyof CountryProps, direction: boolean | null): void => {
+  const sortCountriesByCategory = (category: keyof CountryType, direction: boolean | null): void => {
     if (direction === null || direction) {
       setIsSorted(true);
     } else {
       setIsSorted(false);
     }
 
-    const sorted = countries?.slice().sort((a: CountryProps, b: CountryProps) => {
+    const sorted = countries?.slice().sort((a: CountryType, b: CountryType) => {
       if (direction === null) {
         return Number(a[category]) - Number(b[category]);
       } else if (direction) {

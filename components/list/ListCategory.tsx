@@ -12,7 +12,6 @@ const ListCategory: FC<ListCategoryProps> = ({ name, className }) => {
 
   const sortingHandler = () => {
     if (name === 'capital') return;
-    console.log(sortingDirection);
 
     setSortingDirection(prevDirection => {
       switch (prevDirection) {

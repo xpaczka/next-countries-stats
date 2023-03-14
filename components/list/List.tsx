@@ -1,8 +1,8 @@
 import { FC } from 'react';
 import ListElement from './ListElement';
-import { CountryProps } from '@/types';
+import { CountryType } from '@/types';
 
-const List: FC<{ countries: CountryProps[] }> = ({ countries }) => {
+const List: FC<{ countries: CountryType[] }> = ({ countries }) => {
   return (
     <ul>
       {countries.map(country => (

@@ -1,8 +1,4 @@
-import { CountryProps } from '@/types';
-
-export const sortCountres = (countries: CountryProps[]): CountryProps[] => {
-  return countries.sort((a: any, b: any) => a.name.common.localeCompare(b.name.common));
-};
+import { CountryType } from '@/types';
 
 export const getAllCountries = async () => {
   try {
@@ -14,7 +10,7 @@ export const getAllCountries = async () => {
 
     const data = await response.json();
     const filteredCountries = data.filter((country: { independent: boolean }) => country.independent === true);
-    const sortedCountries = sortCountres(filteredCountries);
+    const sortedCountries = filteredCountries.sort((a: any, b: any) => a.name.common.localeCompare(b.name.common));
 
     return sortedCountries;
   } catch (err) {
@@ -22,11 +18,11 @@ export const getAllCountries = async () => {
   }
 };
 
-export const getAllCountriesListData = async (): Promise<CountryProps[] | void> => {
+export const getAllCountriesListData = async (): Promise<CountryType[] | void> => {
   const allData = await getAllCountries();
   if (!allData) return;
 
-  const listData = allData?.map((data: CountryProps) => {
+  const listData = allData?.map((data: CountryType) => {
     return {
       cca2: data.cca2,
       name: data.name,

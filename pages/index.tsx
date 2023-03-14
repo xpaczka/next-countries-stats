@@ -1,11 +1,11 @@
 import List from '@/components/list/List';
 import { GetServerSideProps, NextPage } from 'next';
 import { getAllCountriesListData } from '@/libs/countries-utils';
-import { CountryProps } from '@/types';
+import { CountryType } from '@/types';
 import { useContext } from 'react';
 import { CountriesContext } from '@/context';
 
-const Homepage: NextPage<{ countries: CountryProps[] }> = ({ countries }) => {
+const Homepage: NextPage<{ countries: CountryType[] }> = ({ countries }) => {
   const { isSorted, isFiltered, filteredCountries, sortedCountries } = useContext(CountriesContext);
 
   if (isSorted && sortedCountries) {

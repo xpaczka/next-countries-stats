@@ -1,4 +1,4 @@
-export interface CountryProps {
+export interface CountryType {
   cca2?: string;
   name: { common: string };
   flags: { svg: string; alt: string };
@@ -18,9 +18,9 @@ export interface CountryProps {
 export interface CountriesContextType {
   isSorted: boolean;
   isFiltered: boolean;
-  countries: CountryProps[] | undefined;
-  filteredCountries: CountryProps[] | undefined;
-  sortedCountries: CountryProps[] | undefined;
+  countries: CountryType[] | undefined;
+  filteredCountries: CountryType[] | undefined;
+  sortedCountries: CountryType[] | undefined;
   filterCountries: (value: string) => void;
   sortCountriesByCategory: (category: string, direction: boolean | null) => void;
 }

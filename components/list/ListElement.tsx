@@ -1,7 +1,7 @@
 import { FC } from 'react';
-import { CountryProps } from '@/types';
+import { CountryType } from '@/types';
 
-const ListElement: FC<CountryProps> = ({ name, capital, flags, population, area }) => {
+const ListElement: FC<CountryType> = ({ name, capital, flags, population, area }) => {
   const formattedPopulation = population.toLocaleString('en-US').replaceAll(',', ' ');
   const formattedArea = area.toLocaleString('en-US').replaceAll(',', ' ');
 

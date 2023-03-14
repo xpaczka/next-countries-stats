@@ -4,7 +4,7 @@ export interface CountryProps {
   flags: { svg: string; alt: string };
   population: number;
   area: number;
-  capital?: string[];
+  capital: string[];
   [key: string]:
     | string
     | number
@@ -13,4 +13,14 @@ export interface CountryProps {
     | { svg: string; alt: string }
     | string[]
     | Record<string, unknown>;
+}
+
+export interface CountriesContextType {
+  isSorted: boolean;
+  isFiltered: boolean;
+  countries: CountryProps[] | undefined;
+  filteredCountries: CountryProps[] | undefined;
+  sortedCountries: CountryProps[] | undefined;
+  filterCountries: (value: string) => void;
+  sortCountriesByCategory: (category: string, direction: boolean | null) => void;
 }

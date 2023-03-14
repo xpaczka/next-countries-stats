@@ -1,13 +1,13 @@
 import { useState, useEffect } from 'react';
 
-interface FetchHookReturn {
-  data: any;
+interface FetchHookReturn<T> {
+  data: T | undefined;
   isLoading: boolean;
   error: string | undefined;
 }
 
-const useFetch = (fetchingFunction: Function): FetchHookReturn => {
-  const [data, setData] = useState();
+const useFetch = <T>(fetchingFunction: Function): FetchHookReturn<T> => {
+  const [data, setData] = useState<T>();
   const [isLoading, setIsLoading] = useState<boolean>(false);
   const [error, setError] = useState<string | undefined>();
 

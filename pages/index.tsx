@@ -6,20 +6,21 @@ import { useContext } from 'react';
 import { CountriesContext } from '@/context';
 
 const Homepage: NextPage<{ countries: CountryProps[] }> = ({ countries }) => {
-  const { filteredCountries, sortedCountries } = useContext(CountriesContext);
+  const { isSorted, isFiltered, filteredCountries, sortedCountries } = useContext(CountriesContext);
 
-  // TODO -> Fix rendering issue - filtering not working
-  const countriesValue = sortedCountries.length
-    ? sortedCountries
-    : filteredCountries.length
-    ? filteredCountries
-    : countries;
-
-  if (!countriesValue) {
-    return <p className='text-center'>No countries found.</p>;
+  if (isSorted && sortedCountries) {
+    return <List countries={sortedCountries} />;
   }
 
-  return <List countries={countriesValue} />;
+  if (isFiltered && filteredCountries) {
+    return filteredCountries.length ? (
+      <List countries={filteredCountries} />
+    ) : (
+      <p className='text-center font-bold'>No countries found</p>
+    );
+  }
+
+  return <List countries={countries} />;
 };
 
 export const getServerSideProps: GetServerSideProps = async () => {

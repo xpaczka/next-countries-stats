@@ -1,16 +1,13 @@
-import { createContext, FC, ReactNode, useEffect, useState } from 'react';
-import { CountryProps } from '@/types';
+// TODO -> switch to redux
+
+import { createContext, FC, ReactNode, useState } from 'react';
+import { CountryProps, CountriesContextType } from '@/types';
 import { getAllCountriesListData, sortCountres } from '@/libs/countries-utils';
+import useFetch from '@/hooks/useFetch';
 
-interface Context {
-  countries: CountryProps[];
-  filteredCountries: CountryProps[];
-  sortedCountries: CountryProps[];
-  filterCountries: (value: string) => void;
-  sortCountriesByCategory: (category: string, direction: boolean | null) => void;
-}
-
-export const CountriesContext = createContext<Context>({
+export const CountriesContext = createContext<CountriesContextType>({
+  isSorted: false,
+  isFiltered: false,
   countries: [],
   filteredCountries: [],
   sortedCountries: [],
@@ -19,46 +16,47 @@ export const CountriesContext = createContext<Context>({
 });
 
 const CountriesProvider: FC<{ children: ReactNode }> = ({ children }) => {
-  const [countries, setCountries] = useState<CountryProps[]>([]);
-  const [filteredCountries, setFilteredCountries] = useState<CountryProps[]>([]);
-  const [sortedCountries, setSortedCountries] = useState<CountryProps[]>([]);
-
-  useEffect(() => {
-    const abortController = new AbortController();
-    const getData = async () => {
-      const data = await getAllCountriesListData();
-      if (!data) return;
-
-      setCountries(data);
-    };
-
-    getData();
-    return () => abortController.abort();
-  }, []);
+  const { data: countries } = useFetch<CountryProps[]>(getAllCountriesListData);
+  const [filteredCountries, setFilteredCountries] = useState<CountryProps[] | undefined>([]);
+  const [sortedCountries, setSortedCountries] = useState<CountryProps[] | undefined>([]);
+  const [isSorted, setIsSorted] = useState<boolean>(false);
+  const [isFiltered, setIsFiltered] = useState<boolean>(false);
 
   const filterCountries = (value: string): void => {
-    const filter = countries.filter(country => country.name.common.toLowerCase().includes(value.toLowerCase()));
-    setFilteredCountries(filter);
-  };
-
-  const sortCountriesByCategory = (category: keyof CountryProps, direction: boolean | null): void => {
-    if (category === 'capital') {
-      // sort by capital
+    if (value === '') {
+      setIsFiltered(false);
     } else {
-      const sorted = countries.slice().sort((a: Partial<CountryProps>, b: Partial<CountryProps>) => {
-        if (direction === null) {
-          return Number(a[category]) - Number(b[category]);
-        } else if (direction) {
-          return Number(b[category]) - Number(a[category]);
-        } else {
-          return sortCountres(countries);
-        }
-      });
-      setSortedCountries(sorted);
+      const filter = countries?.filter((country: CountryProps) =>
+        country.name.common.toLowerCase().includes(value.toLowerCase())
+      );
+      setIsFiltered(true);
+      setFilteredCountries(filter);
     }
   };
 
+  const sortCountriesByCategory = (category: keyof CountryProps, direction: boolean | null): void => {
+    if (direction === null || direction) {
+      setIsSorted(true);
+    } else {
+      setIsSorted(false);
+    }
+
+    const sorted = countries?.slice().sort((a: CountryProps, b: CountryProps) => {
+      if (direction === null) {
+        return Number(a[category]) - Number(b[category]);
+      } else if (direction) {
+        return Number(b[category]) - Number(a[category]);
+      } else {
+        return 0;
+      }
+    });
+
+    setSortedCountries(sorted);
+  };
+
   const context = {
+    isSorted,
+    isFiltered,
     countries,
     filteredCountries,
     sortedCountries,

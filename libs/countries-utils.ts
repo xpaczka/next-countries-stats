@@ -1,5 +1,10 @@
 import { CountryType } from '@/types';
 
+const createCountryLink = (name: string): string => {
+  const formmatedName = name.toLowerCase().replaceAll(' ', '-');
+  return `/${formmatedName}`;
+};
+
 export const getAllCountries = async () => {
   try {
     const response = await fetch('https://restcountries.com/v3.1/all');
@@ -18,9 +23,8 @@ export const getAllCountries = async () => {
   }
 };
 
-export const getAllCountriesListData = async (): Promise<CountryType[] | void> => {
+export const getAllCountriesListData = async (): Promise<CountryType[]> => {
   const allData = await getAllCountries();
-  if (!allData) return;
 
   const listData = allData?.map((data: CountryType) => {
     return {
@@ -30,6 +34,7 @@ export const getAllCountriesListData = async (): Promise<CountryType[] | void> =
       population: data.population,
       area: data.area,
       capital: data.capital,
+      url: createCountryLink(data.name.common),
     };
   });
 
@@ -44,10 +49,18 @@ export const getNumberOfCountries = async (): Promise<number> => {
 };
 
 export const getAllCountriesUrl = async (): Promise<string[]> => {
-  const countries = await getAllCountries()
+  const countries = await getAllCountries();
   const links = countries.map((country: CountryType) => {
-    return country.name.common.toLowerCase().replaceAll(' ', '-').trim()
-  })
+    return country.name.common.toLowerCase().replaceAll(' ', '-').trim();
+  });
 
   return links;
-}
+};
+
+export const getSingleCountryFromUrl = async (url: string) => {
+  const countries = await getAllCountriesListData();
+  const formattedUrl = url.slice(1).replace('-', ' ');
+
+  const link = countries.find(country => country.name.common.toLowerCase() === formattedUrl);
+  return link;
+};

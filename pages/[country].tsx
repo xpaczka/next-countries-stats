@@ -1,33 +1,40 @@
-import { GetStaticPaths, GetStaticProps, NextPage } from "next";
-import { getAllCountries, getAllCountriesUrl } from "@/libs/countries-utils";
-import { CountryType } from "@/types";
+// TODO -> reduce loading time
 
-const CountryDetailPage: NextPage<{country: CountryType}> = ({country}) => {
-    return <p>{country.name.common}</p>;
-}
+import { GetStaticPaths, GetStaticProps, NextPage } from 'next';
+import { getAllCountriesUrl, getSingleCountryFromUrl } from '@/libs/countries-utils';
+import { CountryType } from '@/types';
+import CountryHeader from '@/components/country/CountryHeader';
+
+const CountryDetailPage: NextPage<{ country: CountryType }> = ({ country }) => {
+  return (
+    <CountryHeader name={country.name.common} img={country.flags.svg} alt={country.flags.alt || country.name.common} />
+  );
+};
 
 export const getStaticProps: GetStaticProps = async context => {
-    const url = context.params?.country;
-    const links = await getAllCountriesUrl();
-    const allCountries = await getAllCountries();
+  const url = `/${context.params?.country}`;
+  const country = await getSingleCountryFromUrl(url);
 
-    const countryIndex = links.findIndex(link => link === url);
-    const country = allCountries[countryIndex];
-
+  if (!country) {
     return {
-        props: {country},
-        revalidate: 3600000,
+      notFound: true,
     };
-}
+  }
+
+  return {
+    props: { country },
+    revalidate: 3600000,
+  };
+};
 
 export const getStaticPaths: GetStaticPaths = async () => {
-    const allLinks = await getAllCountriesUrl();
-    const paths = allLinks.map((link: string) => ({params: {country: link}}));
+  const allLinks = await getAllCountriesUrl();
+  const paths = allLinks.map((link: string) => ({ params: { country: link } }));
 
-    return {
-        paths,
-        fallback: false
-    };
-}
+  return {
+    paths,
+    fallback: false,
+  };
+};
 
 export default CountryDetailPage;

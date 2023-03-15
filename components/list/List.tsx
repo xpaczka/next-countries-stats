@@ -13,6 +13,7 @@ const List: FC<{ countries: CountryType[] }> = ({ countries }) => {
           population={country.population}
           area={country.area}
           capital={country.capital}
+          url={country.url}
         />
       ))}
     </ul>

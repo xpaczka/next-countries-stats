@@ -9,7 +9,7 @@ const Search = () => {
     <div>
       <input
         type='text'
-        className='bg-green-200 rounded-md py-3 px-5'
+        className='bg-blue-50 rounded-md py-3 px-5'
         placeholder='Search for country, capital, region, etc.'
         onChange={searchHandler}
       />

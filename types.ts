@@ -5,6 +5,7 @@ export interface CountryType {
   population: number;
   area: number;
   capital: string[];
+  url: string;
   [key: string]:
     | string
     | number

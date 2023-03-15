@@ -42,3 +42,12 @@ export const getNumberOfCountries = async (): Promise<number> => {
 
   return countries.length;
 };
+
+export const getAllCountriesUrl = async (): Promise<string[]> => {
+  const countries = await getAllCountries()
+  const links = countries.map((country: CountryType) => {
+    return country.name.common.toLowerCase().replaceAll(' ', '-').trim()
+  })
+
+  return links;
+}

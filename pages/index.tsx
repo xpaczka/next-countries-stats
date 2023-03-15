@@ -8,16 +8,16 @@ import { CountriesContext } from '@/context';
 const Homepage: NextPage<{ countries: CountryType[] }> = ({ countries }) => {
   const { isSorted, isFiltered, filteredCountries, sortedCountries } = useContext(CountriesContext);
 
-  if (isSorted && sortedCountries) {
-    return <List countries={sortedCountries} />;
-  }
-
   if (isFiltered && filteredCountries) {
     return filteredCountries.length ? (
       <List countries={filteredCountries} />
     ) : (
       <p className='text-center font-bold'>No countries found</p>
     );
+  }
+
+  if (isSorted && sortedCountries) {
+    return <List countries={sortedCountries} />;
   }
 
   return <List countries={countries} />;

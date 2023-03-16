@@ -6,22 +6,4 @@ export interface CountryType {
   area: number;
   capital: string[];
   url: string;
-  [key: string]:
-    | string
-    | number
-    | undefined
-    | { common: string }
-    | { svg: string; alt: string }
-    | string[]
-    | Record<string, unknown>;
-}
-
-export interface CountriesContextType {
-  isSorted: boolean;
-  isFiltered: boolean;
-  countries: CountryType[] | undefined;
-  filteredCountries: CountryType[] | undefined;
-  sortedCountries: CountryType[] | undefined;
-  filterCountries: (value: string) => void;
-  sortCountriesByCategory: (category: string, direction: boolean | null) => void;
 }

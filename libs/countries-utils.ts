@@ -23,36 +23,40 @@ export const getAllCountries = async () => {
   }
 };
 
-export const getAllCountriesListData = async (): Promise<CountryType[]> => {
-  const allData = await getAllCountries();
+export const getAllCountriesListData = async (): Promise<CountryType[] | undefined> => {
+  try {
+    const allData = await getAllCountries();
 
-  const listData = allData?.map((data: CountryType) => {
-    return {
-      cca2: data.cca2,
-      name: data.name,
-      flags: data.flags,
-      population: data.population,
-      area: data.area,
-      capital: data.capital,
-      url: createCountryLink(data.name.common),
-    };
-  });
+    if (!allData) {
+      throw new Error('Something went wrong');
+    }
 
-  return listData;
+    const listData = allData?.map((data: CountryType) => {
+      return {
+        cca2: data.cca2,
+        name: data.name,
+        flags: data.flags,
+        population: data.population,
+        area: data.area,
+        capital: data.capital,
+        url: createCountryLink(data.name.common),
+      };
+    });
+
+    return listData;
+  } catch (err: any) {
+    console.error(err);
+  }
 };
 
 export const getNumberOfCountries = async (): Promise<number> => {
   const countries = await getAllCountries();
-  if (!countries) return 0;
-
-  return countries.length;
+  return countries ? countries.length : 0;
 };
 
 export const getAllCountriesUrl = async (): Promise<string[]> => {
   const countries = await getAllCountries();
-  const links = countries.map((country: CountryType) => {
-    return country.name.common.toLowerCase().replaceAll(' ', '-').trim();
-  });
+  const links = countries?.map((country: CountryType) => country.name.common.toLowerCase().replaceAll(' ', '-').trim());
 
   return links;
 };
@@ -60,7 +64,7 @@ export const getAllCountriesUrl = async (): Promise<string[]> => {
 export const getSingleCountryFromUrl = async (url: string) => {
   const countries = await getAllCountriesListData();
   const formattedUrl = url.slice(1).replace('-', ' ');
+  const country = countries?.find(country => country.name.common.toLowerCase() === formattedUrl);
 
-  const link = countries.find(country => country.name.common.toLowerCase() === formattedUrl);
-  return link;
+  return country;
 };

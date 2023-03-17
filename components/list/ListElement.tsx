@@ -4,8 +4,8 @@ import Link from 'next/link';
 import Image from 'next/image';
 
 const ListElement: FC<CountryType> = ({ name, capital, flags, population, area, url }) => {
-  const formattedPopulation = population.toLocaleString('en-US').replaceAll(',', ' ');
-  const formattedArea = area.toLocaleString('en-US').replaceAll(',', ' ');
+  const formattedPopulation: string = population.toLocaleString('en-US').replaceAll(',', ' ');
+  const formattedArea: string = area.toLocaleString('en-US').replaceAll(',', ' ');
 
   return (
     <li>

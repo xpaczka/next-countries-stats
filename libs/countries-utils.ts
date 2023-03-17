@@ -62,9 +62,11 @@ export const getAllCountriesUrl = async (): Promise<string[]> => {
 };
 
 export const getSingleCountryFromUrl = async (url: string) => {
-  const countries = await getAllCountriesListData();
+  const countries = await getAllCountries();
   const formattedUrl = url.slice(1).replace('-', ' ');
-  const country = countries?.find(country => country.name.common.toLowerCase() === formattedUrl);
+  const country = countries?.find(
+    (country: { name: { common: string } }) => country.name.common.toLowerCase() === formattedUrl
+  );
 
   return country;
 };

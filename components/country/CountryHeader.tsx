@@ -1,19 +1,53 @@
-import { FC } from 'react';
+import { FC, useEffect, useState } from 'react';
+import Image from 'next/image';
 
 interface CountryHeaderProps {
-  name: string;
+  name: {
+    common: string;
+    official: string;
+    nativeName: object;
+  };
   img: string;
   alt: string;
+  timezone: string;
 }
 
-const CountryHeader: FC<CountryHeaderProps> = ({ name, img, alt }) => {
+const CountryHeader: FC<CountryHeaderProps> = ({ name, img, alt, timezone }) => {
+  const nativeName: string = Object.values(name.nativeName)[0].official;
+  const [currentTime, setCurrentTime] = useState<string>('');
+
+  useEffect(() => {
+    const interval = setInterval(() => {
+      const time = new Date().toLocaleString('en-US', {
+        hour: 'numeric',
+        minute: 'numeric',
+        second: 'numeric',
+      });
+
+      setCurrentTime(time);
+    }, 1000);
+
+    return () => clearInterval(interval);
+  }, []);
+
   return (
-    <div className='py-10 flex items-start flex-wrap'>
-      <div className='w-1/3'>
-        <img src={img} alt={alt} className='w-60 rounded-lg' />
+    <div className='bg-blue-50 p-10 w-1/3 rounded-md flex flex-col items-center text-center'>
+      <Image
+        src={img}
+        alt={alt}
+        className='rounded-lg object-contain border border-solid border-black mb-5'
+        width={160}
+        height={120}
+      />
+      <h1 className='text-xl font-bold mb-4'>{name.common}</h1>
+      <div className='mb-5'>
+        <p>{nativeName}</p>
+        <p>{name.official}</p>
       </div>
-      <div className='w-2/3'>
-        <h1 className='text-3xl font-bold mb-2'>{name}</h1>
+      <div>
+        <p className='font-bold'>Current time</p>
+        <p>{currentTime}</p>
+        <p className='text-xs'>({timezone})</p>
       </div>
     </div>
   );

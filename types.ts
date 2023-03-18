@@ -5,8 +5,8 @@ export interface CountryType {
   population: number;
   area: number;
   capital: string[];
+  capitalInfo: { latlng: number[] };
   url: string;
-  timezones: string[];
   region: string;
   languages: object;
   currencies: object;

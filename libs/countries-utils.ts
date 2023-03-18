@@ -49,11 +49,6 @@ export const getAllCountriesListData = async (): Promise<CountryType[] | undefin
   }
 };
 
-export const getNumberOfCountries = async (): Promise<number> => {
-  const countries = await getAllCountries();
-  return countries ? countries.length : 0;
-};
-
 export const getAllCountriesUrl = async (): Promise<string[]> => {
   const countries = await getAllCountries();
   const links = countries?.map((country: CountryType) => country.name.common.toLowerCase().replaceAll(' ', '-').trim());
@@ -71,26 +66,20 @@ export const getSingleCountryFromUrl = async (url: string) => {
   return country;
 };
 
-// TODO -> add all cases calculation
-export const getCurrentTime = (timezone: any[]) => {
-  const timezoneData = [...timezone];
-  const now = new Date();
-  const isNegativeOffset = timezoneData[0].startsWith('+');
-  timezoneData[0] = 60 * Number(timezoneData[0].slice(1));
+export const getCurrentTime = async (lat: number, lng: number) => {
+  const timestamp = Math.floor(Date.now() / 1000);
+  const response = await fetch(
+    `https://maps.googleapis.com/maps/api/timezone/json?location=${lat},${lng}&timestamp=${timestamp}&key=${process.env.NEXT_PUBLIC_GOOGLE_API_KEY}`
+  );
 
-  let timezoneOffset: number = Number(timezoneData[0]) + Number(timezoneData[1]);
-  let totalOffset: number = 0;
+  const data = await response.json();
 
-  if (isNegativeOffset) {
-    timezoneOffset *= -1;
-    totalOffset = -now.getTimezoneOffset() + timezoneOffset;
-  }
-
-  const newTime = now.getTime() - totalOffset * 60 * 1000;
-
-  return new Date(newTime).toLocaleString('en-US', {
+  const currentTime = new Date().toLocaleString('en-US', {
+    timeZone: data.timeZoneId,
     hour: 'numeric',
     minute: 'numeric',
     second: 'numeric',
   });
+
+  return currentTime;
 };

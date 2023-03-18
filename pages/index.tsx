@@ -30,7 +30,7 @@ const Homepage: NextPage<{ countries: CountryType[] }> = ({ countries }) => {
   return (
     <Layout>
       <ListHeader onSearch={searchCountriesHandler} />
-      <div className='pt-48'>{countriesData ? countriesHtml : <LoadingSpinner />}</div>
+      <div className='pt-48 pb-10'>{countriesData ? countriesHtml : <LoadingSpinner />}</div>
     </Layout>
   );
 };

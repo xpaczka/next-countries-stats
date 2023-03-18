@@ -5,27 +5,32 @@ import { getAllCountriesUrl, getSingleCountryFromUrl } from '@/libs/countries-ut
 import { CountryType } from '@/types';
 import CountryHeader from '@/components/country/CountryHeader';
 import CountryInfo from '@/components/country/CountryInfo';
+import Layout from '@/components/layout/Layout';
 
 const CountryDetailPage: NextPage<{ country: CountryType }> = ({ country }) => {
+  // console.log(country);
+
   return (
-    <div className='container mt-12'>
-      <div className='flex flex-nowrap items-start content-start gap-5'>
-        <CountryHeader
-          name={country.name}
-          img={country.flags.svg}
-          alt={country.flags.alt || country.name.common}
-          timezone={country.timezones[0]}
-        />
-        <CountryInfo
-          capital={country.capital[0]}
-          region={country.region}
-          languages={country.languages}
-          population={country.population}
-          area={country.area}
-          currency={country.currencies}
-        />
+    <Layout>
+      <div className='pt-12'>
+        <div className='flex flex-nowrap items-start content-start gap-5'>
+          <CountryHeader
+            name={country.name}
+            img={country.flags.svg}
+            alt={country.flags.alt || country.name.common}
+            latlng={country.capitalInfo.latlng}
+          />
+          <CountryInfo
+            capital={country.capital[0]}
+            region={country.region}
+            languages={country.languages}
+            population={country.population}
+            area={country.area}
+            currency={country.currencies}
+          />
+        </div>
       </div>
-    </div>
+    </Layout>
   );
 };
 

@@ -10,17 +10,17 @@ interface CountryHeaderProps {
   };
   img: string;
   alt: string;
-  timezone: string;
+  latlng: number[];
 }
 
-const CountryHeader: FC<CountryHeaderProps> = ({ name, img, alt, timezone }) => {
+const CountryHeader: FC<CountryHeaderProps> = ({ name, img, alt, latlng }) => {
   const nativeName: string = Object.values(name.nativeName)[0].official;
   const [currentTime, setCurrentTime] = useState<string>('');
-  const formattedTimezone = timezone.slice(3).split(':');
+  const [lat, lng] = latlng;
 
   useEffect(() => {
-    const interval = setInterval(() => {
-      const time = getCurrentTime(formattedTimezone);
+    const interval = setInterval(async () => {
+      const time = await getCurrentTime(lat, lng);
       setCurrentTime(time);
     }, 1000);
 
@@ -42,13 +42,8 @@ const CountryHeader: FC<CountryHeaderProps> = ({ name, img, alt, timezone }) => 
         <p>{name.official}</p>
       </div>
       <div>
-        {currentTime && (
-          <>
-            <p className='font-bold'>Current time</p>
-            <p>{currentTime}</p>
-            <p className='text-xs'>({timezone})</p>
-          </>
-        )}
+        <p className='font-bold'>Local time</p>
+        <p className='h-6'>{currentTime}</p>
       </div>
     </div>
   );

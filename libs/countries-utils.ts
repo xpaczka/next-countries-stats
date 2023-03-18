@@ -70,3 +70,27 @@ export const getSingleCountryFromUrl = async (url: string) => {
 
   return country;
 };
+
+// TODO -> add all cases calculation
+export const getCurrentTime = (timezone: any[]) => {
+  const timezoneData = [...timezone];
+  const now = new Date();
+  const isNegativeOffset = timezoneData[0].startsWith('+');
+  timezoneData[0] = 60 * Number(timezoneData[0].slice(1));
+
+  let timezoneOffset: number = Number(timezoneData[0]) + Number(timezoneData[1]);
+  let totalOffset: number = 0;
+
+  if (isNegativeOffset) {
+    timezoneOffset *= -1;
+    totalOffset = -now.getTimezoneOffset() + timezoneOffset;
+  }
+
+  const newTime = now.getTime() - totalOffset * 60 * 1000;
+
+  return new Date(newTime).toLocaleString('en-US', {
+    hour: 'numeric',
+    minute: 'numeric',
+    second: 'numeric',
+  });
+};

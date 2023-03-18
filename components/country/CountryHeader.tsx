@@ -1,5 +1,6 @@
 import { FC, useEffect, useState } from 'react';
 import Image from 'next/image';
+import { getCurrentTime } from '@/libs/countries-utils';
 
 interface CountryHeaderProps {
   name: {
@@ -15,15 +16,11 @@ interface CountryHeaderProps {
 const CountryHeader: FC<CountryHeaderProps> = ({ name, img, alt, timezone }) => {
   const nativeName: string = Object.values(name.nativeName)[0].official;
   const [currentTime, setCurrentTime] = useState<string>('');
+  const formattedTimezone = timezone.slice(3).split(':');
 
   useEffect(() => {
     const interval = setInterval(() => {
-      const time = new Date().toLocaleString('en-US', {
-        hour: 'numeric',
-        minute: 'numeric',
-        second: 'numeric',
-      });
-
+      const time = getCurrentTime(formattedTimezone);
       setCurrentTime(time);
     }, 1000);
 
@@ -45,9 +42,13 @@ const CountryHeader: FC<CountryHeaderProps> = ({ name, img, alt, timezone }) => 
         <p>{name.official}</p>
       </div>
       <div>
-        <p className='font-bold'>Current time</p>
-        <p>{currentTime}</p>
-        <p className='text-xs'>({timezone})</p>
+        {currentTime && (
+          <>
+            <p className='font-bold'>Current time</p>
+            <p>{currentTime}</p>
+            <p className='text-xs'>({timezone})</p>
+          </>
+        )}
       </div>
     </div>
   );

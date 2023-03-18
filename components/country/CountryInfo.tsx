@@ -1,6 +1,5 @@
-// TODO -> fix current time display (displaying wrong time)
-
 import { FC } from 'react';
+import CountryInfoElement from './CountryInfoElement';
 
 interface CountryInfoProps {
   capital: string;
@@ -24,32 +23,12 @@ const CountryInfo: FC<CountryInfoProps> = ({ capital, region, languages, populat
 
   return (
     <div className='py-10 px-5 rounded-md bg-blue-50 w-2/3'>
-      <div className='flex items-center justify-between border-b border-solid border-gray-300 py-3 px-5 mb-3'>
-        <p className='font-bold'>Capital</p>
-        <p>{capital}</p>
-      </div>
-      <div className='flex items-center justify-between border-b border-solid border-gray-300 py-3 px-5 mb-3'>
-        <p className='font-bold'>Region</p>
-        <p>{region}</p>
-      </div>
-      <div className='flex items-center justify-between border-b border-solid border-gray-300 py-3 px-5 mb-3'>
-        <p className='font-bold'>Languages</p>
-        <p>{formattedLanguages}</p>
-      </div>
-      <div className='flex items-center justify-between border-b border-solid border-gray-300 py-3 px-5 mb-3'>
-        <p className='font-bold'>Population</p>
-        <p>{formattedPopulation}</p>
-      </div>
-      <div className='flex items-center justify-between border-b border-solid border-gray-300 py-3 px-5 mb-3'>
-        <p className='font-bold'>Area</p>
-        <p>{formattedArea}</p>
-      </div>
-      <div className='flex items-center justify-between border-b border-solid border-gray-300 py-3 px-5 mb-3'>
-        <p className='font-bold'>Currency</p>
-        <p>
-          {currencySymbol} {currencyName}
-        </p>
-      </div>
+      <CountryInfoElement name='Capital' value={capital} />
+      <CountryInfoElement name='Region' value={region} />
+      <CountryInfoElement name='Languages' value={formattedLanguages} />
+      <CountryInfoElement name='Population' value={formattedPopulation} />
+      <CountryInfoElement name='Area' value={formattedArea} />
+      <CountryInfoElement name='Currency' value={`${currencySymbol} ${currencyName}`} />
     </div>
   );
 };

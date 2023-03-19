@@ -5,9 +5,13 @@ export interface CountryType {
   population: number;
   area: number;
   capital: string[];
-  capitalInfo: { latlng: number[] };
+
   url: string;
+}
+
+export interface CountryTypeExtended extends CountryType {
   region: string;
   languages: object;
   currencies: object;
+  capitalInfo: { latlng: number[] };
 }

@@ -67,6 +67,7 @@ export const getSingleCountryFromUrl = async (url: string) => {
 };
 
 export const getCurrentTime = async (lat: number, lng: number) => {
+  const locale = navigator.language;
   const timestamp = Math.floor(Date.now() / 1000);
   const response = await fetch(
     `https://maps.googleapis.com/maps/api/timezone/json?location=${lat},${lng}&timestamp=${timestamp}&key=${process.env.NEXT_PUBLIC_GOOGLE_API_KEY}`
@@ -74,7 +75,7 @@ export const getCurrentTime = async (lat: number, lng: number) => {
 
   const data = await response.json();
 
-  const currentTime = new Date().toLocaleString('en-US', {
+  const currentTime = new Date().toLocaleString(locale, {
     timeZone: data.timeZoneId,
     hour: 'numeric',
     minute: 'numeric',

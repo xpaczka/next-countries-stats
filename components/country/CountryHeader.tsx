@@ -28,7 +28,7 @@ const CountryHeader: FC<CountryHeaderProps> = ({ name, img, alt, latlng }) => {
   }, []);
 
   return (
-    <div className='bg-blue-50 p-10 w-1/3 rounded-md flex flex-col items-center text-center'>
+    <div className='bg-blue-50 p-10 w-full md:w-1/3 rounded-t-md md:rounded-md flex flex-col items-center text-center'>
       <Image
         src={img}
         alt={alt}

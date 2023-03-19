@@ -16,7 +16,7 @@ const CountryDetailPage: NextPage<{ country: CountryTypeExtended }> = ({ country
           <p className='text-sm ml-3'>Homepage</p>
         </Link>
       </div>
-      <div className='flex flex-nowrap items-start content-start gap-5'>
+      <div className='flex flex-wrap md:flex-nowrap items-start content-start md:gap-5'>
         <CountryHeader
           name={country.name}
           img={country.flags.svg}

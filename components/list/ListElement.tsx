@@ -24,9 +24,9 @@ const ListElement: FC<CountryType> = ({ name, capital, flags, population, area, 
           <p className='pl-5'>{name.common}</p>
         </div>
         <div className='flex items-center text-center'>
-          {capital && <div className='w-48'>{capital[0]}</div>}
-          <div className='w-36'>{formattedPopulation}</div>
-          <div className='w-36'>{formattedArea}</div>
+          {capital && <div className='w-48 hidden md:block'>{capital[0]}</div>}
+          <div className='hidden sm:block w-28 sm:w-36'>{formattedPopulation}</div>
+          <div className='hidden sm:block w-28 sm:w-36'>{formattedArea}</div>
         </div>
       </Link>
     </li>

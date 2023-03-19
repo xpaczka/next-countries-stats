@@ -7,8 +7,8 @@ interface ListCategoryProps {
 
 const ListCategory: FC<ListCategoryProps> = ({ name, className }) => {
   return (
-    <div className={`text-center cursor-pointer ${className}`}>
-      <p>{name}</p>
+    <div className={`text-center ${className}`}>
+      <p className='cursor-pointer'>{name}</p>
     </div>
   );
 };

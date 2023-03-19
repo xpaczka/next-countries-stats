@@ -8,12 +8,12 @@ const createCountryLink = (name: string): string => {
 export const getAllCountries = async () => {
   try {
     const response = await fetch('https://restcountries.com/v3.1/all');
+    const data = await response.json();
 
     if (!response.ok) {
-      throw new Error('Something went wrong');
+      throw new Error(data.error || 'Something went wrong');
     }
 
-    const data = await response.json();
     const filteredCountries = data.filter((country: { independent: boolean }) => country.independent === true);
     const sortedCountries = filteredCountries.sort((a: any, b: any) => a.name.common.localeCompare(b.name.common));
 

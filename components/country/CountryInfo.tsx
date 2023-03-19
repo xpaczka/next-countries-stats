@@ -19,16 +19,18 @@ const CountryInfo: FC<CountryInfoProps> = ({ capital, region, languages, populat
   const formattedLanguages: string = Object.values(languages).join(', ');
   const formattedPopulation: string = population.toLocaleString('en-US').replaceAll(',', ' ');
   const formattedArea: string = area.toLocaleString('en-US').replaceAll(',', ' ');
+
   const { name: currencyName, symbol: currencySymbol }: CurrencyType = Object.values(currency)[0];
+  const formattedCurrency = `${currencySymbol} ${currencyName}`;
 
   return (
-    <div className='py-10 px-5 rounded-md bg-blue-50 w-2/3'>
+    <div className='py-10 px-5 rounded-b-md md:rounded-md bg-blue-50 w-full md:w-2/3'>
       <CountryInfoElement name='Capital' value={capital} />
       <CountryInfoElement name='Region' value={region} />
       <CountryInfoElement name='Languages' value={formattedLanguages} />
       <CountryInfoElement name='Population' value={formattedPopulation} />
       <CountryInfoElement name='Area' value={formattedArea} />
-      <CountryInfoElement name='Currency' value={`${currencySymbol} ${currencyName}`} />
+      <CountryInfoElement name='Currency' value={formattedCurrency} />
     </div>
   );
 };

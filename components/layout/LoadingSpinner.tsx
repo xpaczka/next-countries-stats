@@ -3,7 +3,7 @@ const LoadingSpinner = () => {
     <div className='flex flex-col items-center' role='status'>
       <svg
         aria-hidden='true'
-        className='w-16 h-16  text-gray-200 animate-spin dark:text-gray-600 fill-blue-50'
+        className='w-12 sm:w-16 h-12 sm:h-16 text-gray-200 animate-spin dark:text-gray-600 fill-blue-50'
         viewBox='0 0 100 101'
         fill='none'
         xmlns='http://www.w3.org/2000/svg'

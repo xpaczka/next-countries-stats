@@ -1,7 +1,7 @@
 import List from '@/components/list/List';
 import { GetStaticProps, NextPage } from 'next';
-import { getAllCountries } from '@/libs/countries-utils';
-import { CountryType, CountryTypeExtended } from '@/types';
+import { getAllCountriesListData } from '@/libs/countries-utils';
+import { CountryType } from '@/types';
 import { useEffect, useState } from 'react';
 import Layout from '@/components/layout/Layout';
 import ListHeader from '@/components/list/ListHeader';
@@ -66,18 +66,7 @@ const Homepage: NextPage<{ countries: CountryType[] }> = ({ countries }) => {
 };
 
 export const getStaticProps: GetStaticProps = async () => {
-  const data = await getAllCountries();
-  const countries = data?.map((data: CountryTypeExtended) => {
-    return {
-      cca2: data.cca2,
-      name: data.name,
-      flags: data.flags,
-      population: data.population,
-      area: data.area,
-      capital: data.capital,
-      url: data.url
-    };
-  });
+  const countries = await getAllCountriesListData();
 
   return {
     props: { countries: countries || [] },

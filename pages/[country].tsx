@@ -1,20 +1,33 @@
 import { GetStaticPaths, GetStaticProps, NextPage } from 'next';
-import { getAllCountriesUrl, getSingleCountryFromUrl } from '@/libs/countries-utils';
-import { CountryTypeExtended } from '@/types';
+import { getAllCountriesUrl, getSingleCountryFromUrl, getBorderingCountries } from '@/libs/countries-utils';
+import { CountryType, CountryTypeExtended } from '@/types';
 import CountryHeader from '@/components/country/CountryHeader';
 import CountryInfo from '@/components/country/CountryInfo';
 import Layout from '@/components/layout/Layout';
 import Link from 'next/link';
 import Image from 'next/image';
 import Head from 'next/head';
+import { useEffect, useState } from 'react';
 const CountryDetailPage: NextPage<{ country: CountryTypeExtended }> = ({ country }) => {
-  const pageName: string = `Detail page about ${country.name.common}`
+  const pageTitle = `${country.name.common} - Next Countries Stats`
+  const pageDescription: string = `Detail page about ${country.name.common}`
+
+  const [borderingCountries, setBorderingCountries] = useState<CountryType[]>([])
+
+  useEffect(() => {
+    const fetchBorders = async () => {
+      const fetchedBorders = await getBorderingCountries(country.borders)
+      setBorderingCountries(fetchedBorders)
+    }
+
+    fetchBorders()
+  }, [country.borders])
 
   return (
     <>
       <Head>
-        <title>{country.name.common} - Next Countries Stats</title>
-        <meta name='description' content={pageName}></meta>
+        <title>{pageTitle}</title>
+        <meta name='description' content={pageDescription}></meta>
       </Head>
       <Layout>
         <div className='py-4'>
@@ -38,6 +51,7 @@ const CountryDetailPage: NextPage<{ country: CountryTypeExtended }> = ({ country
             population={country.population}
             area={country.area}
             currency={country.currencies}
+            borders={borderingCountries}
           />
         </div>
       </Layout>

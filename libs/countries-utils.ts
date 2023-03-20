@@ -1,4 +1,4 @@
-import { CountryType } from '@/types';
+import { CountryType, CountryTypeExtended } from '@/types';
 
 const createCountryLink = (name: string): string => {
   const formmatedName = name.toLowerCase().replaceAll(' ', '-');
@@ -66,13 +66,25 @@ export const getSingleCountryFromUrl = async (url: string) => {
   return country;
 };
 
+export const getBorderingCountries = async (borders: string[]) => {
+  const countries = await getAllCountries();
+  const borderingCountries = []
+
+  for (const border of borders) {
+    const borderingCountry = countries.find((country: CountryTypeExtended) => country.cca3 === border)
+    borderingCountries.push(borderingCountry)
+  }
+
+  return borderingCountries as CountryType[]
+}
+
 export const getCurrentTime = async (lat: number, lng: number) => {
   const locale = navigator.language;
   const timestamp = Math.floor(Date.now() / 1000);
+
   const response = await fetch(
     `https://maps.googleapis.com/maps/api/timezone/json?location=${lat},${lng}&timestamp=${timestamp}&key=${process.env.NEXT_PUBLIC_GOOGLE_API_KEY}`
   );
-
   const data = await response.json();
 
   const currentTime = new Date().toLocaleString(locale, {

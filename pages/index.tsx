@@ -31,23 +31,6 @@ const Homepage: NextPage<{ countries: CountryType[] }> = ({ countries }) => {
     return () => clearTimeout(timetout);
   }, []);
 
-  const metadata = <Head>
-      <title>Next Countries Stats</title>
-      <meta name="description" content="See information about all countries"></meta>
-    </Head>
-
-  if (fetchingFailed && !countriesData) {
-    return (
-      <>
-        {metadata}
-        <Layout>
-          <ListHeader countriesFound={filteredCountries.length} onSearch={searchCountriesHandler} />
-          <p className='pt-48 sm:pt-52 text-center font-bold'>No data available.</p>
-        </Layout>
-      </>
-    );
-  }
-
   const countriesHtml = filteredCountries.length ? (
     <List countries={filteredCountries} />
   ) : (
@@ -56,10 +39,17 @@ const Homepage: NextPage<{ countries: CountryType[] }> = ({ countries }) => {
 
   return (
     <>
-      {metadata}
+      <Head>
+        <title>Next Countries Stats</title>
+        <meta name="description" content="See information about all countries"></meta>
+      </Head>
       <Layout>
         <ListHeader countriesFound={filteredCountries.length} onSearch={searchCountriesHandler} />
-        <div className='pt-48 sm:pt-52 pb-10'>{countriesData ? countriesHtml : <LoadingSpinner />}</div>
+        <div className='pt-48 sm:pt-52 pb-10'>{
+          fetchingFailed && !countriesData 
+          ? <p className='pt-48 sm:pt-52 text-center font-bold'>No data available.</p>
+          : (countriesData ? countriesHtml : <LoadingSpinner />)}
+        </div>
       </Layout>
     </>
   );

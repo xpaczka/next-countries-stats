@@ -1,5 +1,6 @@
 export interface CountryType {
   cca2?: string;
+  cca3?: string;
   name: { common: string; official: string; nativeName: object };
   flags: { svg: string; alt: string };
   population: number;
@@ -14,4 +15,5 @@ export interface CountryTypeExtended extends CountryType {
   languages: object;
   currencies: object;
   capitalInfo: { latlng: number[] };
+  borders: string[]
 }

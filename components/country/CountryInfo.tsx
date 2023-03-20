@@ -1,4 +1,6 @@
+import { CountryType } from '@/types';
 import { FC } from 'react';
+import CountryBorders from './CountryBorders';
 import CountryInfoElement from './CountryInfoElement';
 
 interface CountryInfoProps {
@@ -9,6 +11,7 @@ interface CountryInfoProps {
   population: number;
   area: number;
   currency: object;
+  borders: CountryType[];
 }
 
 interface CurrencyType {
@@ -16,7 +19,7 @@ interface CurrencyType {
   symbol: string;
 }
 
-const CountryInfo: FC<CountryInfoProps> = ({ capital, continent, subregion, languages, population, area, currency }) => {
+const CountryInfo: FC<CountryInfoProps> = ({ capital, continent, subregion, languages, population, area, currency, borders }) => {
   const formattedLanguages: string = Object.values(languages).join(', ');
   const formattedPopulation: string = population.toLocaleString('en-US').replaceAll(',', ' ');
   const formattedArea: string = area.toLocaleString('en-US').replaceAll(',', ' ');
@@ -33,6 +36,7 @@ const CountryInfo: FC<CountryInfoProps> = ({ capital, continent, subregion, lang
       <CountryInfoElement name='Population' value={formattedPopulation} />
       <CountryInfoElement name='Area' value={formattedArea} />
       <CountryInfoElement name='Currency' value={formattedCurrency} />
+      {borders.length ? <CountryBorders borders={borders} /> : ''}
     </div>
   );
 };

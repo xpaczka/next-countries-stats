@@ -1,22 +1,25 @@
 import { GetStaticPaths, GetStaticProps, NextPage } from 'next';
 import { getAllCountriesUrl, getSingleCountryFromUrl, getBorderingCountries } from '@/libs/countries-utils';
 import { CountryType, CountryTypeExtended } from '@/types';
+import { useEffect, useState } from 'react';
 import CountryHeader from '@/components/country/CountryHeader';
 import CountryInfo from '@/components/country/CountryInfo';
 import Layout from '@/components/layout/Layout';
 import Link from 'next/link';
 import Image from 'next/image';
 import Head from 'next/head';
-import { useEffect, useState } from 'react';
+
 const CountryDetailPage: NextPage<{ country: CountryTypeExtended }> = ({ country }) => {
   const pageTitle = `${country.name.common} - Next Countries Stats`
-  const pageDescription: string = `Detail page about ${country.name.common}`
+  const pageDescription: string = `Detail page of ${country.name.common}`
 
   const [borderingCountries, setBorderingCountries] = useState<CountryType[]>([])
 
   useEffect(() => {
     const fetchBorders = async () => {
       const fetchedBorders = await getBorderingCountries(country.borders)
+      if (!fetchedBorders) return;
+
       setBorderingCountries(fetchedBorders)
     }
 

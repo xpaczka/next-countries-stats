@@ -58,7 +58,7 @@ export const getAllCountriesUrl = async (): Promise<string[]> => {
 
 export const getSingleCountryFromUrl = async (url: string) => {
   const countries = await getAllCountries();
-  const formattedUrl = url.slice(1).replace('-', ' ');
+  const formattedUrl = url.slice(1).replaceAll('-', ' ');
   const country = countries?.find(
     (country: { name: { common: string } }) => country.name.common.toLowerCase() === formattedUrl
   );
@@ -66,7 +66,9 @@ export const getSingleCountryFromUrl = async (url: string) => {
   return country;
 };
 
-export const getBorderingCountries = async (borders: string[]) => {
+export const getBorderingCountries = async (borders: string[]): Promise<CountryType[] | undefined> => {
+  if (!borders) return;
+
   const countries = await getAllCountries();
   const borderingCountries = []
 
@@ -78,7 +80,7 @@ export const getBorderingCountries = async (borders: string[]) => {
   return borderingCountries as CountryType[]
 }
 
-export const getCurrentTime = async (lat: number, lng: number) => {
+export const getCurrentTime = async (lat: number, lng: number): Promise<string> => {
   const locale = navigator.language;
   const timestamp = Math.floor(Date.now() / 1000);
 

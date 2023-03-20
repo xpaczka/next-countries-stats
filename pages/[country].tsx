@@ -7,13 +7,14 @@ import Layout from '@/components/layout/Layout';
 import Link from 'next/link';
 import Image from 'next/image';
 import Head from 'next/head';
-
 const CountryDetailPage: NextPage<{ country: CountryTypeExtended }> = ({ country }) => {
+  const pageName: string = `Detail page about ${country.name.common}`
+
   return (
     <>
       <Head>
         <title>{country.name.common} - Next Countries Stats</title>
-        <meta name='description' content={`Detail page about ${country.name.common}`}></meta>
+        <meta name='description' content={pageName}></meta>
       </Head>
       <Layout>
         <div className='py-4'>

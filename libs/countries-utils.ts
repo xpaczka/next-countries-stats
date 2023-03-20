@@ -1,6 +1,6 @@
 import { CountryType, CountryTypeExtended } from '@/types';
 
-const createCountryLink = (name: string): string => {
+export const createCountryLink = (name: string): string => {
   const formmatedName = name.toLowerCase().replaceAll(' ', '-');
   return `/${formmatedName}`;
 };
@@ -70,15 +70,15 @@ export const getBorderingCountries = async (borders: string[]): Promise<CountryT
   if (!borders) return;
 
   const countries = await getAllCountries();
-  const borderingCountries = []
+  const borderingCountries = [];
 
   for (const border of borders) {
-    const borderingCountry = countries.find((country: CountryTypeExtended) => country.cca3 === border)
-    borderingCountries.push(borderingCountry)
+    const borderingCountry = countries.find((country: CountryTypeExtended) => country.cca3 === border);
+    borderingCountries.push(borderingCountry);
   }
 
-  return borderingCountries as CountryType[]
-}
+  return borderingCountries as CountryType[];
+};
 
 export const getCurrentTime = async (lat: number, lng: number): Promise<string> => {
   const locale = navigator.language;

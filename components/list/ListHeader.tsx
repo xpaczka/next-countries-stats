@@ -1,13 +1,21 @@
 import { ChangeEvent, FC } from 'react';
 import ListCategory from './ListCategory';
 
-const Header: FC<{ onSearch: Function }> = ({ onSearch }) => {
+interface ListHeaderProps {
+  onSearch: Function;
+  countriesFound: number;
+}
+
+const Header: FC<ListHeaderProps> = ({ onSearch, countriesFound }) => {
   const searchHandler = (e: ChangeEvent<HTMLInputElement>) => onSearch(e.target.value.toLowerCase());
 
   return (
     <div className='container fixed left-1/2 transform -translate-x-1/2 pb-5 py-10 bg-white'>
       <div className='sm:mb-10 sm:flex justify-between'>
-        <div className='text-center sm:text-left text-2xl font-bold uppercase mb-5'>Countries Stats</div>
+        <div className='mb-5 text-center sm:text-left '>
+          <div className='text-2xl font-bold uppercase'>Countries Stats</div>
+          <p>{countriesFound ? countriesFound : 'No'} countries found</p>
+        </div>
         <div>
           <input
             type='text'

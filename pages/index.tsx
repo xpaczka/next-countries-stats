@@ -6,15 +6,16 @@ import { useEffect, useState } from 'react';
 import Layout from '@/components/layout/Layout';
 import ListHeader from '@/components/list/ListHeader';
 import LoadingSpinner from '@/components/layout/LoadingSpinner';
+import Head from 'next/head';
 
 const Homepage: NextPage<{ countries: CountryType[] }> = ({ countries }) => {
   const [countriesData, setCountriesData] = useState<CountryType[] | undefined>();
   const [searchValue, setSearchValue] = useState<string>('');
+  const [fetchingFailed, setFetchingFailed] = useState<boolean>(false);
   const searchCountriesHandler = (value: string): void => setSearchValue(value);
   const filteredCountries: CountryType[] = countries.filter((country: CountryType) =>
     country.name.common.toLowerCase().includes(searchValue)
   );
-  const [fetchingFailed, setFetchingFailed] = useState<boolean>(false);
 
   useEffect(() => {
     if (countries.length) {
@@ -30,12 +31,20 @@ const Homepage: NextPage<{ countries: CountryType[] }> = ({ countries }) => {
     return () => clearTimeout(timetout);
   }, []);
 
+  const metadata = <Head>
+      <title>Next Countries Stats</title>
+      <meta name="description" content="See information about all countries"></meta>
+    </Head>
+
   if (fetchingFailed && !countriesData) {
     return (
-      <Layout>
-        <ListHeader onSearch={searchCountriesHandler} />
-        <p className='pt-44 sm:pt-48 text-center font-bold'>No data available.</p>
-      </Layout>
+      <>
+        {metadata}
+        <Layout>
+          <ListHeader countriesFound={filteredCountries.length} onSearch={searchCountriesHandler} />
+          <p className='pt-48 sm:pt-52 text-center font-bold'>No data available.</p>
+        </Layout>
+      </>
     );
   }
 
@@ -46,10 +55,13 @@ const Homepage: NextPage<{ countries: CountryType[] }> = ({ countries }) => {
   );
 
   return (
-    <Layout>
-      <ListHeader onSearch={searchCountriesHandler} />
-      <div className='pt-44 sm:pt-48 pb-10'>{countriesData ? countriesHtml : <LoadingSpinner />}</div>
-    </Layout>
+    <>
+      {metadata}
+      <Layout>
+        <ListHeader countriesFound={filteredCountries.length} onSearch={searchCountriesHandler} />
+        <div className='pt-48 sm:pt-52 pb-10'>{countriesData ? countriesHtml : <LoadingSpinner />}</div>
+      </Layout>
+    </>
   );
 };
 

@@ -3,7 +3,8 @@ import CountryInfoElement from './CountryInfoElement';
 
 interface CountryInfoProps {
   capital: string;
-  region: string;
+  continent: string;
+  subregion: string;
   languages: object;
   population: number;
   area: number;
@@ -15,7 +16,7 @@ interface CurrencyType {
   symbol: string;
 }
 
-const CountryInfo: FC<CountryInfoProps> = ({ capital, region, languages, population, area, currency }) => {
+const CountryInfo: FC<CountryInfoProps> = ({ capital, continent, subregion, languages, population, area, currency }) => {
   const formattedLanguages: string = Object.values(languages).join(', ');
   const formattedPopulation: string = population.toLocaleString('en-US').replaceAll(',', ' ');
   const formattedArea: string = area.toLocaleString('en-US').replaceAll(',', ' ');
@@ -26,7 +27,8 @@ const CountryInfo: FC<CountryInfoProps> = ({ capital, region, languages, populat
   return (
     <div className='py-10 px-5 rounded-b-md md:rounded-md bg-blue-50 w-full md:w-2/3'>
       <CountryInfoElement name='Capital' value={capital} />
-      <CountryInfoElement name='Region' value={region} />
+      <CountryInfoElement name='Continent' value={continent} />
+      <CountryInfoElement name='Subregion' value={subregion} />
       <CountryInfoElement name='Languages' value={formattedLanguages} />
       <CountryInfoElement name='Population' value={formattedPopulation} />
       <CountryInfoElement name='Area' value={formattedArea} />

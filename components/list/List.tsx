@@ -1,6 +1,6 @@
 import { FC } from 'react';
-import ListElement from './ListElement';
 import { CountryType } from '@/types';
+import ListElement from './ListElement';
 
 const List: FC<{ countries: CountryType[] }> = ({ countries }) => {
   return (

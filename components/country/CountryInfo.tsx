@@ -19,7 +19,16 @@ interface CurrencyType {
   symbol: string;
 }
 
-const CountryInfo: FC<CountryInfoProps> = ({ capital, continent, subregion, languages, population, area, currency, borders }) => {
+const CountryInfo: FC<CountryInfoProps> = ({
+  capital,
+  continent,
+  subregion,
+  languages,
+  population,
+  area,
+  currency,
+  borders,
+}) => {
   const formattedLanguages: string = Object.values(languages).join(', ');
   const formattedPopulation: string = population.toLocaleString('en-US').replaceAll(',', ' ');
   const formattedArea: string = area.toLocaleString('en-US').replaceAll(',', ' ');

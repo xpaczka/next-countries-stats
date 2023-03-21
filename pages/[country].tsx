@@ -8,6 +8,7 @@ import Layout from '@/components/layout/Layout';
 import Link from 'next/link';
 import Image from 'next/image';
 import Head from 'next/head';
+import ErrorBoundary from '@/components/layout/ErrorBoundary';
 
 const CountryDetailPage: NextPage<{ country: CountryTypeExtended }> = ({ country }) => {
   const pageTitle = `${country.name.common} - Next Countries Stats`;
@@ -27,7 +28,7 @@ const CountryDetailPage: NextPage<{ country: CountryTypeExtended }> = ({ country
   }, [country.borders]);
 
   return (
-    <>
+    <ErrorBoundary>
       <Head>
         <title>{pageTitle}</title>
         <meta name='description' content={pageDescription}></meta>
@@ -60,7 +61,7 @@ const CountryDetailPage: NextPage<{ country: CountryTypeExtended }> = ({ country
           </div>
         </div>
       </Layout>
-    </>
+    </ErrorBoundary>
   );
 };
 

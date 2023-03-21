@@ -1,8 +1,8 @@
-import List from '@/components/list/List';
 import { GetStaticProps, NextPage } from 'next';
 import { getAllCountriesListData } from '@/libs/countries-utils';
 import { CountryType } from '@/types';
 import { useEffect, useState } from 'react';
+import List from '@/components/list/List';
 import Layout from '@/components/layout/Layout';
 import ListHeader from '@/components/list/ListHeader';
 import LoadingSpinner from '@/components/layout/LoadingSpinner';
@@ -41,14 +41,18 @@ const Homepage: NextPage<{ countries: CountryType[] }> = ({ countries }) => {
     <>
       <Head>
         <title>Next Countries Stats</title>
-        <meta name="description" content="See information about all countries"></meta>
+        <meta name='description' content='See information about all countries'></meta>
       </Head>
       <Layout>
         <ListHeader countriesFound={filteredCountries.length} onSearch={searchCountriesHandler} />
-        <div className='pt-48 sm:pt-52 pb-10'>{
-          fetchingFailed && !countriesData 
-          ? <p className='pt-48 sm:pt-52 text-center font-bold'>No data available.</p>
-          : (countriesData ? countriesHtml : <LoadingSpinner />)}
+        <div className='pt-48 sm:pt-52 pb-10'>
+          {fetchingFailed && !countriesData ? (
+            <p className='pt-48 sm:pt-52 text-center font-bold'>No data available.</p>
+          ) : countriesData ? (
+            countriesHtml
+          ) : (
+            <LoadingSpinner />
+          )}
         </div>
       </Layout>
     </>

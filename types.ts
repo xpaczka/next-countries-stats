@@ -15,5 +15,6 @@ export interface CountryTypeExtended extends CountryType {
   languages: object;
   currencies: object;
   capitalInfo: { latlng: number[] };
-  borders: string[]
+  borders: string[];
+  independent?: boolean;
 }

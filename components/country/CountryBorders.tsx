@@ -1,8 +1,8 @@
 import { createCountryLink } from '@/libs/countries-utils';
 import { CountryType } from '@/types';
+import { FC } from 'react';
 import Image from 'next/image';
 import Link from 'next/link';
-import { FC } from 'react';
 
 const CountryBorders: FC<{ borders: CountryType[] }> = ({ borders }) => {
   return (

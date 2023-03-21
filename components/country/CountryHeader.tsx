@@ -1,6 +1,6 @@
 import { FC, useEffect, useState } from 'react';
-import Image from 'next/image';
 import { getCurrentTime } from '@/libs/countries-utils';
+import Image from 'next/image';
 
 interface CountryHeaderProps {
   name: {
